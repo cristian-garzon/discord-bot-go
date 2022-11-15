@@ -1,5 +1,6 @@
 package handlers
 
 type Handlers struct {
-	Ping PingHandler
+	Ping      PingHandler
+	GetAvatar GetAvatarHandler
 }

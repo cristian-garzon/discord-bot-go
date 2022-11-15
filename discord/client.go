@@ -1,7 +1,8 @@
 package discord
 
 import (
-	"github.com/bwmarrin/discordgo"
+	"fmt"
+	discordgo "github.com/bwmarrin/discordgo"
 )
 
 type BotClient struct {
@@ -16,7 +17,15 @@ func newBotClient(bot *discordgo.Session) *BotClient {
 
 func (client *BotClient) SendMessage(m *discordgo.MessageCreate, message string) {
 	client.Bot.ChannelMessageSend(m.ChannelID, message)
+}
 
+func (client *BotClient) GetAvatar(m *discordgo.MessageCreate, embeds []*discordgo.MessageEmbed) {
+	_, err := client.Bot.ChannelMessageSendEmbeds(m.ChannelID, embeds)
+	if err != nil {
+		client.Bot.ChannelMessageSend(m.ChannelID,
+			fmt.Sprintf("Hubo un error mostrando tu avatar %s :c", m.Author.Mention()),
+		)
+	}
 }
 
 func (client *BotClient) CloseConnection() {

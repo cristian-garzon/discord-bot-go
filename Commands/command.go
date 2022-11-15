@@ -10,11 +10,13 @@ import (
 
 type Command struct {
 	pingHandler *handlers.PingHandler
+	getAvatar   *handlers.GetAvatarHandler
 }
 
 func NewCommands(repositories *dependencies.Repositories) *Command {
 	return &Command{
 		pingHandler: handlers.NewPing(repositories.SendMessage),
+		getAvatar:   handlers.NewGetAvatarHandler(repositories.GetAvatar),
 	}
 }
 
@@ -32,10 +34,18 @@ func (Command *Command) SetupCommands(
 	if command[0] != "" {
 		return
 	}
+
 	//add commands HERE
 	for _, v := range utils.Ping {
 		if command[1] == v {
 			Command.pingHandler.Execute(m)
 		}
 	}
+
+	for _, v := range utils.Avatar {
+		if command[1] == v {
+			Command.getAvatar.Execute(m)
+		}
+	}
+
 }

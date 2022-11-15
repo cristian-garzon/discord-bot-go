@@ -8,6 +8,7 @@ type Repositories struct {
 	SendMessage SendMessage
 	Close       Close
 	Open        Open
+	GetAvatar   GetAvatar
 }
 
 func NewRepositories(
@@ -20,5 +21,6 @@ func NewRepositories(
 		SendMessage: discordRepository.CreateMessage,
 		Close:       discordRepository.Close,
 		Open:        discordRepository.Open,
+		GetAvatar:   discordRepository.Avatar,
 	}
 }
