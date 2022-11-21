@@ -11,12 +11,14 @@ import (
 type Command struct {
 	pingHandler *handlers.PingHandler
 	getAvatar   *handlers.GetAvatarHandler
+	GetHelp     *handlers.GetHelpHandler
 }
 
 func NewCommands(repositories *dependencies.Repositories) *Command {
 	return &Command{
 		pingHandler: handlers.NewPing(repositories.SendMessage),
 		getAvatar:   handlers.NewGetAvatarHandler(repositories.GetAvatar),
+		GetHelp:     handlers.NewGetHelpHandler(repositories.GetHelp),
 	}
 }
 
@@ -36,16 +38,19 @@ func (Command *Command) SetupCommands(
 	}
 
 	//add commands HERE
-	for _, v := range utils.Ping {
-		if command[1] == v {
-			Command.pingHandler.Execute(m)
-		}
+	if utils.Contains(utils.Ping, command[1]) {
+		Command.pingHandler.Execute(m)
+		return
 	}
 
-	for _, v := range utils.Avatar {
-		if command[1] == v {
-			Command.getAvatar.Execute(m)
-		}
+	if utils.Contains(utils.Avatar, command[1]) {
+		Command.getAvatar.Execute(m)
+		return
+	}
+
+	if utils.Contains(utils.Help, command[1]) {
+		Command.GetHelp.Execute(m)
+		return
 	}
 
 }

@@ -7,18 +7,18 @@ import (
 )
 
 type Repository struct {
-	sendMessage     func(m *discordgo.MessageCreate, message string)
-	closeConnection func()
-	openConnection  func() error
-	getAvatar       func(m *discordgo.MessageCreate, embeds []*discordgo.MessageEmbed)
+	sendMessage      func(m *discordgo.MessageCreate, message string)
+	closeConnection  func()
+	openConnection   func() error
+	SendMessageEmbed func(m *discordgo.MessageCreate, embeds []*discordgo.MessageEmbed)
 }
 
 func NewRepository(client *BotClient) *Repository {
 	return &Repository{
-		sendMessage:     client.SendMessage,
-		closeConnection: client.CloseConnection,
-		openConnection:  client.OpenConnection,
-		getAvatar:       client.GetAvatar,
+		sendMessage:      client.SendMessage,
+		closeConnection:  client.CloseConnection,
+		openConnection:   client.OpenConnection,
+		SendMessageEmbed: client.SendMessageEmbed,
 	}
 }
 
@@ -42,7 +42,25 @@ func (Repository *Repository) Avatar(m *discordgo.MessageCreate) {
 			Color: utils.Yellow,
 		},
 	}
-	Repository.getAvatar(m, embeds)
+	Repository.SendMessageEmbed(m, embeds)
+}
+
+func (Repository *Repository) Help(m *discordgo.MessageCreate) {
+	helpCommands := ""
+	for _, v := range utils.Commands {
+		helpCommands += fmt.Sprintf("**%s**: %s. %s \n", v.Title, v.Description, v.Prefix)
+	}
+	var embeds = []*discordgo.MessageEmbed{
+		&discordgo.MessageEmbed{
+			Title:       "Help",
+			Description: helpCommands,
+			Footer: &discordgo.MessageEmbedFooter{
+				Text: fmt.Sprintf("cualquier duda que tengas dicelo a mi desarrollador ^^"),
+			},
+			Color: utils.Red,
+		},
+	}
+	Repository.SendMessageEmbed(m, embeds)
 }
 
 func (Repository *Repository) Close() {
