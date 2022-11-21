@@ -9,6 +9,7 @@ type Repositories struct {
 	Close       Close
 	Open        Open
 	GetAvatar   GetAvatar
+	GetHelp     GetHelp
 }
 
 func NewRepositories(
@@ -22,5 +23,6 @@ func NewRepositories(
 		Close:       discordRepository.Close,
 		Open:        discordRepository.Open,
 		GetAvatar:   discordRepository.Avatar,
+		GetHelp:     discordRepository.Help,
 	}
 }

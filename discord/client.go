@@ -19,7 +19,7 @@ func (client *BotClient) SendMessage(m *discordgo.MessageCreate, message string)
 	client.Bot.ChannelMessageSend(m.ChannelID, message)
 }
 
-func (client *BotClient) GetAvatar(m *discordgo.MessageCreate, embeds []*discordgo.MessageEmbed) {
+func (client *BotClient) SendMessageEmbed(m *discordgo.MessageCreate, embeds []*discordgo.MessageEmbed) {
 	_, err := client.Bot.ChannelMessageSendEmbeds(m.ChannelID, embeds)
 	if err != nil {
 		client.Bot.ChannelMessageSend(m.ChannelID,

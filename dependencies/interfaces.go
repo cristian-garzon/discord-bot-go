@@ -11,3 +11,5 @@ type Close func()
 type Open func() error
 
 type GetAvatar func(m *discordgo.MessageCreate)
+
+type GetHelp func(m *discordgo.MessageCreate)
