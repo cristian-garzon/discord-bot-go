@@ -6,7 +6,8 @@ import (
 )
 
 type ActionsBuilder struct {
-	Ping func(session *discordgo.Session, message *discordgo.MessageCreate)
+	Ping   func(session *discordgo.Session, message *discordgo.MessageCreate)
+	Avatar func(session *discordgo.Session, message *discordgo.MessageCreate)
 }
 
 func NewActionsBuilder() (*ActionsBuilder, error) {
@@ -16,7 +17,14 @@ func NewActionsBuilder() (*ActionsBuilder, error) {
 		return nil, err
 	}
 
+	avatar, err := actions.NewAvatar()
+
+	if err != nil {
+		return nil, err
+	}
+
 	return &ActionsBuilder{
 		ping.Execute,
+		avatar.Execute,
 	}, err
 }

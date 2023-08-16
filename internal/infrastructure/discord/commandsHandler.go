@@ -24,4 +24,7 @@ func (handler *CommandsHandler) Ping(ctx context.Context) {
 
 func (handler *CommandsHandler) Avatar(ctx context.Context) {
 
+	message := ctx.Value("message").(*discordgo.MessageCreate)
+	session := ctx.Value("session").(*discordgo.Session)
+	handler.ActionsBuilder.Avatar(session, message)
 }

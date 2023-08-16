@@ -25,7 +25,6 @@ func main() {
 		log.Fatal(fmt.Sprintf("error injectiong actions: %s", err.Error()))
 	}
 
-	fmt.Println("Bot " + appConfig.DiscordConfig.AuthToken)
 	dg, err := discordgo.New("Bot " + appConfig.DiscordConfig.AuthToken)
 
 	if err != nil {
